@@ -12,6 +12,7 @@ import {
   Eye,
   Layers
 } from "lucide-react";
+import FieldDigitalTwin from "./FieldDigitalTwin";
 
 const FieldVisualization = () => {
   const [selectedField, setSelectedField] = useState("field-a");
@@ -60,57 +61,6 @@ const FieldVisualization = () => {
       default:
         return "bg-muted";
     }
-  };
-
-  const renderFieldGrid = () => {
-    const fieldData = getFieldData();
-    if (!fieldData) return null;
-
-    // Create a 6x4 grid representing field sections
-    const sections = [];
-    for (let i = 0; i < 24; i++) {
-      const variance = Math.random() * 0.2 - 0.1; // ±10% variance
-      let value;
-      
-      switch (selectedView) {
-        case "health":
-          value = fieldData.health + (variance * fieldData.health);
-          break;
-        case "irrigation":
-          value = fieldData.irrigation + (variance * fieldData.irrigation);
-          break;
-        case "temperature":
-          value = fieldData.temperature + (variance * 5);
-          break;
-        case "disease":
-          value = fieldData.diseases + Math.floor(Math.random() * 2);
-          break;
-        default:
-          value = 50;
-      }
-
-      const intensity = selectedView === "disease" 
-        ? value === 0 ? "opacity-20" : value < 2 ? "opacity-60" : "opacity-100"
-        : value > 90 ? "opacity-100" : value > 75 ? "opacity-75" : value > 60 ? "opacity-50" : "opacity-30";
-
-      sections.push(
-        <div
-          key={i}
-          className={`aspect-square rounded ${getVisualizationColor()} ${intensity} border border-background hover:scale-105 transition-transform cursor-pointer`}
-          title={`Section ${i + 1}: ${
-            selectedView === "disease" ? `${value} issues` :
-            selectedView === "temperature" ? `${value.toFixed(1)}°C` :
-            `${value.toFixed(0)}%`
-          }`}
-        />
-      );
-    }
-
-    return (
-      <div className="grid grid-cols-6 gap-2 p-4 bg-gradient-earth rounded-lg">
-        {sections}
-      </div>
-    );
   };
 
   return (
@@ -280,7 +230,13 @@ const FieldVisualization = () => {
                 Each square represents a field section. Hover for detailed values.
               </p>
             </div>
-            {renderFieldGrid()}
+            {/* Replace grid with FieldDigitalTwin */}
+            <FieldDigitalTwin
+              initialLayer={selectedView === "health" ? "ndvi" : selectedView === "irrigation" ? "ndwi" : selectedView === "temperature" ? "lst" : "ndvi"}
+              showLayerSelector={false}
+              height="400px"
+              width="100%"
+            />
           </div>
         </CardContent>
       </Card>

@@ -35,7 +35,7 @@ const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
             <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
               <Leaf className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">SmartAgro</span>
+            <span className="text-xl font-bold text-foreground">AgroPulse</span>
           </div>
 
           {/* Desktop Navigation */}
